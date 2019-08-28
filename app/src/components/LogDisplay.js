@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Store from '../store/store';
 
-function search(event) {
-  Store.dispatch({type: 'GETLOGS', query: event.target.value});
-}
-
 export default () => {
+  const searchText = useSearchInput('default text');
   const logs = Store.getState().logs || [];
+  useDocumentTitle(searchText.value);
 
   return (
     <div id="jp-log-display">
-      <input id="jp-search" onInput={search} />
+      <input id="jp-search" { ...searchText } />
+      <div id="jp-search-echo">ECHO: {searchText.value}</div>
       <div id="jp-logs-container">
         {logs.map((log, index) => <div key={index} className="jp-log">{log.logLine}</div>)}
       </div>
     </div>
   );
+}
+
+function useSearchInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  
+  return {
+    value,
+    onChange: (e) => {
+      const { value } = e.target;
+      setValue(value);
+      Store.dispatch({type: 'GETLOGS', query: value});
+    },
+  }
+}
+
+function useDocumentTitle(title) {
+  useEffect(() => {
+    document.title = title;
+  });
 }

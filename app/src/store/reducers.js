@@ -8,6 +8,7 @@ const reducers = [
 
 export default (state, action) => {
  const newState = { ...state };
+ // eslint-disable-next-line
  for (const reducer of reducers) {
    const reducedState = reducer(newState, action);
    if (reducedState) {
