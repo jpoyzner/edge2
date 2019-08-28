@@ -1,4 +1,11 @@
-## Available Scripts
+## TO RUN LOCALY
+
+### 'npm install'
+### 'npm run build'
+### 'node server.js'
+### 'http://localhost:8080'
+
+## DEFAULT create-react-app COMMANDS:
 
 In the project directory, you can run:
 
