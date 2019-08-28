@@ -3,7 +3,7 @@ import Store from '../store/store';
 
 export default () => {
   const searchText = useSearchInput('default text');
-  const logs = Store.getState().logs || [];
+  const logs = Store.getState().logs || '';
   useDocumentTitle(searchText.value);
 
   return (
@@ -11,7 +11,7 @@ export default () => {
       <input id="jp-search" { ...searchText } />
       <div id="jp-search-echo">ECHO: {searchText.value}</div>
       <div id="jp-logs-container">
-        {logs.map((log, index) => <div key={index} className="jp-log">{log.logLine}</div>)}
+        <div className="jp-log">{logs}</div>
       </div>
     </div>
   );
