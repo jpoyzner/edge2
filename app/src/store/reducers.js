@@ -1,7 +1,9 @@
 import counterActions from './counteractions';
 import logActions from './logactions';
+import postsActions from './postsactions';
 
 const reducers = [
+	postsActions,
 	counterActions,
 	logActions,
 ];

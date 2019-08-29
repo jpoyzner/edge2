@@ -1,4 +1,14 @@
 import {createStore, applyMiddleware} from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers'
 import LogService from './logservice';
-export default createStore(reducers, { count: 0, logs: [] }, applyMiddleware(LogService));
+import PostsService from './postsservice';
+
+export default createStore(
+	reducers, {
+		count: 0,
+		logs: [],
+		posts: [],
+		usersMap: {},
+	},
+	composeWithDevTools(applyMiddleware(LogService, PostsService)));

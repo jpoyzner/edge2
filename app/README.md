@@ -1,13 +1,16 @@
 ## TO RUN LOCALY
 
 ### 'npm install'
-### 'npm run build'
+### 'npm start'
 ### 'node server.js'
-### 'http://localhost:8080'
+### 'http://localhost:3000'
 
-## DEFAULT create-react-app COMMANDS:
+## TO REBUILD SOURCEMAPS
 
-In the project directory, you can run:
+### 'npm run build'
+### 'npm start'
+
+## MORE INFO ON create-react-app COMMANDS:
 
 ### `npm start`
 

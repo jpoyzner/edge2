@@ -10,6 +10,7 @@ export default store => next => action => {
   			})
 				.catch((error) => console.error('Error:', error));	      
 
-    	break
+    	break;
+    default: return false;
 	}
 };
