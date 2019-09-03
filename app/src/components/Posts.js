@@ -9,16 +9,19 @@ function Posts(props) {
 
   return (
     <div id="posts-page">
-      {posts.map((post) => {
-        return (
-          <div key={post.id}>
-            <div>USER: {usersMap[post.userId]}</div>
-            <div>TITLE: {post.title}</div>
-            <div>BODY: {post.body}</div>
-            <br />
-          </div>
-        );
-      })}
+      {posts.length ?
+        posts.map((post) => {
+          return (
+            <div key={post.id}>
+              <div>USER: {usersMap[post.userId]}</div>
+              <div>TITLE: {post.title}</div>
+              <div>BODY: {post.body}</div>
+              <br />
+            </div>
+          );
+        })
+        : "LOADING..."
+      }
     </div>
   );
 }
@@ -62,10 +65,20 @@ function useUsersMap(initialUsers) {
 
 function useAppPosts(posts) { //reddux version
   if (!posts.length) {
-    Store.dispatch({type: 'getPosts'});
+    getDelayedPosts().then((action) => {
+      Store.dispatch({type: action});
+    });
   }
 
   return posts;
+}
+
+function getDelayedPosts() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('getPosts');
+    }, 2000);
+  });
 }
 
 export default connect((state) => ({
