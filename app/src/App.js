@@ -6,15 +6,17 @@ import Nav from './components/Nav';
 import Counter from './components/Counter';
 import LogDisplay from './components/LogDisplay';
 import Posts from './components/Posts';
+import Todos from './components/Todos';
 
 export default () => (
 	<Provider store={Store}>
 	  <Router>
 	  	<div>
 	    	<Route path="/" component={Nav} />
-				<Route path="/a" render={() => <Counter text="Welcome!" />} />
-				<Route path="/b" component={LogDisplay} />
-				<Route path="/c" component={Posts} />
+				<Route path="/counter" render={() => <Counter text="Welcome!" />} />
+				<Route path="/logs" component={LogDisplay} />
+				<Route path="/posts" component={Posts} />
+				<Route path="/todos" component={Todos} />
 			</div>
 	  </Router>
 	</Provider>

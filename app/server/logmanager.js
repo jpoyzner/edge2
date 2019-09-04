@@ -1,5 +1,7 @@
 module.exports = {
-	readLogs: function(query, callback) {
-	 	callback(query + " and server data");
+	readLogs(query) {
+		return new Promise((resolve) => {
+	 		resolve(query + " and server data");
+	 	});
 	},
 }

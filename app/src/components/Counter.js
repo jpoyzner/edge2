@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import './Counter.scss';
 import Store from '../store/store';
 
 function Counter(props) {
