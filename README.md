@@ -2,17 +2,17 @@
 
 ## To Run Locally
 
-### npm install
-### npm start
-### node server.js
-### npm install -g json-server
-### json-server --watch server/data/contacts.json --port 4000
-### http://localhost:3000
+### `npm install`
+### `npm start`
+### `node server.js`
+### `npm install -g json-server`
+### `json-server --watch server/data/contacts.json --port 4000`
+### `http://localhost:3000`
 
 ## To Rebuild Sourcemaps
 
-### 'npm run build'
-### 'npm start'
+### `npm run build`
+### `npm start`
 
 ## More Info on create-react-app commands
 
