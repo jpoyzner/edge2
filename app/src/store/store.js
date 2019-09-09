@@ -4,6 +4,7 @@ import reducers from './reducers'
 import LogService from './logservice';
 import PostsService from './postsservice';
 import TodosService from './todosservice';
+import ContactsService from './contactsservice';
 
 export default createStore(
 	reducers, {
@@ -12,5 +13,12 @@ export default createStore(
 		posts: [],
 		todos: [],
 		usersMap: {},
+		contacts: null,
 	},
-	composeWithDevTools(applyMiddleware(LogService, PostsService, TodosService)));
+	composeWithDevTools(
+		applyMiddleware(
+			LogService,
+			PostsService,
+			TodosService,
+			ContactsService,
+		)));

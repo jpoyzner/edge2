@@ -18,12 +18,17 @@ export default (props) => {
     props.history.push('/todos');
   }
 
+  function gotoContacts() {
+    props.history.push('/contacts');
+  }
+
   return (
     <div id="jp-nav">
       <span onClick={gotoCounter}>RENDER COUNTER</span>
       <span onClick={gotoLogs}>RENDER LOGS</span>
       <span onClick={gotoPosts}>RENDER POSTS</span>
       <span onClick={gotoTodos}>RENDER TODOS</span>
+      <span onClick={gotoContacts}>RENDER CONTACTS</span>
     </div>
   );
 }

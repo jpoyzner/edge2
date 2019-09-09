@@ -3,6 +3,8 @@
 ### 'npm install'
 ### 'npm start'
 ### 'node server.js'
+### 'npm install -g json-server'
+### 'json-server --watch server/data/contacts.json --port 4000'
 ### 'http://localhost:3000'
 
 ## TO REBUILD SOURCEMAPS

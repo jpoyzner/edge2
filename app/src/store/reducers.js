@@ -2,12 +2,14 @@ import counterActions from './counteractions';
 import logActions from './logactions';
 import postsActions from './postsactions';
 import todosActions from './todosactions';
+import contactsActions from './contactsactions';
 
 const reducers = [
 	postsActions,
 	counterActions,
 	logActions,
 	todosActions,
+	contactsActions,
 ];
 
 export default (state, action) => {
