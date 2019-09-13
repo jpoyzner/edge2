@@ -6,10 +6,15 @@ import './Contacts.scss';
 
 function Contacts(props) {
   const filter = useFilterInput('');
+  const number = usePhoneInput('');
   const contacts = useContacts(props.contacts);
 
   return (
     <div className="contacts-page">
+     <div className="number">
+        <span>ENTER NUMBER: </span>
+        <input className="number" { ...number } />
+      </div>
       <div className="filter">
         <span>FILTER BY: </span>
         <input className="filter" { ...filter } />
@@ -38,6 +43,35 @@ function Contacts(props) {
       }
     </div>
   );
+}
+
+function usePhoneInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  
+  return {
+    value,
+    onChange: (e) => {
+      const { value } = e.target;
+
+      const numbersEntered = value.replace(/\D/g, '');
+      const numbersEnteredLength = numbersEntered.length;
+
+      let phoneNumber = ''; // formatted
+      if (numbersEnteredLength > 0) {
+        phoneNumber += `(${numbersEntered.slice(0, 3)}`;
+        
+        if (numbersEnteredLength > 3) {
+          phoneNumber += `) ${numbersEntered.slice(3, 6)}`;
+          
+          if (numbersEnteredLength > 6) {
+            phoneNumber += `-${numbersEntered.slice(6, 10)}`;
+          }
+        }
+      }
+
+      setValue(phoneNumber);
+    },
+  }
 }
 
 function useFilterInput(initialValue) {

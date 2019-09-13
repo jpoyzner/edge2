@@ -24,11 +24,11 @@ export default (props) => {
 
   return (
     <div id="jp-nav">
-      <span onClick={gotoCounter}>RENDER COUNTER</span>
-      <span onClick={gotoLogs}>RENDER LOGS</span>
-      <span onClick={gotoPosts}>RENDER POSTS</span>
-      <span onClick={gotoTodos}>RENDER TODOS</span>
-      <span onClick={gotoContacts}>RENDER CONTACTS</span>
+      <div className="tab" onClick={gotoCounter}>RENDER COUNTER</div>
+      <div className="tab" onClick={gotoLogs}>RENDER LOGS</div>
+      <div className="tab" onClick={gotoPosts}>RENDER POSTS</div>
+      <div className="tab" onClick={gotoTodos}>RENDER TODOS</div>
+      <div className="tab" onClick={gotoContacts}>RENDER CONTACTS</div>
     </div>
   );
 }
