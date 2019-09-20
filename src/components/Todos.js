@@ -12,7 +12,7 @@ function Posts(props) {
       {todos.value.length ?
         todos.value.map((todo, index) => {
           return (
-            <div className="todo-item" key={index} data-index={index} onClick={todos.remove}>
+            <div className="todo-item" key={index} onClick={todos.remove.bind(this, index)}>
               <span>{todo}</span>
             </div>
           );
@@ -30,8 +30,8 @@ function useTodos(todos) {
 
   return {
     value: todos,
-    remove(e) {
-      Store.dispatch({type: 'removeTodo', data: $(e.target).data('index')});
+    remove(index) {
+      Store.dispatch({type: 'removeTodo', data: index});
     },
   }
 }

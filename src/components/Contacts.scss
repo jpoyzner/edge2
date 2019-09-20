@@ -3,15 +3,28 @@
 	.filter{
 		 margin: 10px;
 	}
-	
-	.contact-item {
-		background: white;
-		border-radius: 5px;
-		margin: 10px;
-		padding: 10px;
 
-		&.error {
-			background: red;
+	.add-contact {
+		background: white;
+		border: 1px solid;
+		cursor: pointer;
+		margin-left: 10px;
+		padding: 5px;
+	}
+	
+	.contacts-container {
+		height: 600px;
+		overflow: scroll;
+
+		.contact-item {
+			background: white;
+			border-radius: 5px;
+			margin: 10px;
+			padding: 10px;
+
+			&.error {
+				background: red;
+			}
 		}
 	}
 }

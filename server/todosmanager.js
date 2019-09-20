@@ -1,5 +1,7 @@
 var cache = require('memory-cache');
 
+// consider using LowDB for this instead: https://github.com/typicode/lowdb
+
 cache.put(
 	'todos',
 	['clean up', 'get food', 'take a nap'],
