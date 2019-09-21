@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Store from '../store/store';
 
+let posts = [];
+
+const AsyncPosts = React.lazy(() => {
+  return new Promise((resolve) => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(res => res.json())
+      .then(response => {
+        resolve(response);
+      })
+      //.catch(error => reject(error));
+  })
+  .then((response) => {
+    posts = response;
+    return import('./AsyncPosts');
+  });
+});
+
 function Posts(props) {
-  const usersMap = useUsersMap({})
-  // const posts = usePosts([]); //local state version
-  const posts = useAppPosts(props.appPosts);
+  //const usersMap = useUsersMap({})
+  //const posts = usePosts([]); //local state version
+  //const posts = useAppPosts(props.appPosts); //redux version
 
   return (
     <div id="posts-page">
-      {posts.length ?
-        posts.map((post) => {
-          return (
-            <div key={post.id}>
-              <div>USER: {usersMap[post.userId]}</div>
-              <div>TITLE: {post.title}</div>
-              <div>BODY: {post.body}</div>
-              <br />
-            </div>
-          );
-        })
-        : "LOADING..."
-      }
+      <Suspense fallback={"LOADING..."}>
+        <AsyncPosts posts={posts} />
+      </Suspense>
     </div>
   );
 }
