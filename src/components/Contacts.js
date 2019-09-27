@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useInput } from '../utils/hooks';
 import './Contacts.scss';
 
 function Contacts(props) {
-  const filter = useFilterInput('');
+  const filter = useInput('');
   const number = usePhoneNumber('');
   const contacts = useContacts(props.contacts, number, props);
 
@@ -109,17 +110,6 @@ function useContacts(contacts, number, props) {
     addContact(e) {
       props.addContact(number.value);
       number.clear();
-    },
-  }
-}
-
-function useFilterInput(initialValue) {
-  const [value, setValue] = useState(initialValue);
-  
-  return {
-    value,
-    onChange: (e) => {
-      setValue(e.target.value);
     },
   }
 }

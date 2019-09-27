@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useInput } from '../utils/hooks';
 
 function LogDisplay(props) {
-  const searchText = useSearchInput('default text', props);
+  const searchText = useInput('default text', (e) => props.getLogs(e.target.value));
   useDocumentTitle(searchText.value);
 
   return (
@@ -14,19 +15,6 @@ function LogDisplay(props) {
       </div>
     </div>
   );
-}
-
-function useSearchInput(initialValue, props) {
-  const [value, setValue] = useState(initialValue);
-  
-  return {
-    value,
-    onChange: (e) => {
-      const { value } = e.target;
-      setValue(value);
-      props.getLogs(value);
-    },
-  }
 }
 
 function useDocumentTitle(title) {
