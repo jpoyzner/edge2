@@ -5,39 +5,7 @@ import './Contacts.scss';
 function Contacts(props) {
   const filter = useFilterInput('');
   const number = usePhoneNumber('');
-  const contacts = useContacts(props.contacts);
-
-  function useContacts(contacts) {
-    if (!contacts) {
-      props.getContacts();
-    }
-
-    if (!Array.isArray(contacts)) {
-      return [];
-    }
-
-    return {
-      value:
-        contacts.reduce((contactsAcc, contact) => {
-          const digits = contact.number.replace(/[^A-Za-z0-9]/g, '')
-          const preparedContact = { ...contact };
-          if (digits.length !== 11 && digits.length !== 12) { //if it has +# or +## intl prefix before the 10 digits
-            preparedContact.error = true; // error state contacts shown in red
-          } else {
-            // find length of international prefix by counting digits
-            const intlPrefixLength = digits.length === 11 ? 1 : 2;
-            preparedContact.number = gete164Number(digits.slice(intlPrefixLength));
-          }
-
-          contactsAcc.push(preparedContact);
-          return contactsAcc;
-        }, []),
-      addContact(e) {
-        props.addContact(number.value);
-        number.clear();
-      },
-    }
-  }
+  const contacts = useContacts(props.contacts, number, props);
 
   return (
     <div className="contacts-page">
@@ -55,7 +23,7 @@ function Contacts(props) {
           contacts.value.map((contact, index) => {
             const { value: filterText } = filter;
             if (filterText.length && contact.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
-              return;
+              return false;
             }
 
             const contactClasses = ['contact-item'];
@@ -113,6 +81,38 @@ function usePhoneNumber(initialValue) {
   }
 }
 
+function useContacts(contacts, number, props) {
+  if (!contacts) {
+    props.getContacts();
+  }
+
+  if (!Array.isArray(contacts)) {
+    return [];
+  }
+
+  return {
+    value:
+      contacts.reduce((contactsAcc, contact) => {
+        const digits = contact.number.replace(/[^A-Za-z0-9]/g, '')
+        const preparedContact = { ...contact };
+        if (digits.length !== 11 && digits.length !== 12) { //if it has +# or +## intl prefix before the 10 digits
+          preparedContact.error = true; // error state contacts shown in red
+        } else {
+          // find length of international prefix by counting digits
+          const intlPrefixLength = digits.length === 11 ? 1 : 2;
+          preparedContact.number = gete164Number(digits.slice(intlPrefixLength));
+        }
+
+        contactsAcc.push(preparedContact);
+        return contactsAcc;
+      }, []),
+    addContact(e) {
+      props.addContact(number.value);
+      number.clear();
+    },
+  }
+}
+
 function useFilterInput(initialValue) {
   const [value, setValue] = useState(initialValue);
   
@@ -130,9 +130,7 @@ function gete164Number(n) {
 }
 
 export default connect(
-  (state) => ({
-    contacts: state.contacts,
-  }),
+  (state) => ({ contacts: state.contacts }),
   (dispatch) => ({
     getContacts() {
       dispatch({ type: 'getContacts' });

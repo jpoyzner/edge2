@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
-import Store from '../store/store';
 import './Todos.scss';
 
 function Posts(props) {
-  const todos = useTodos(props.todos);
+  const todos = useTodos(props.todos, props);
 
   return (
     <div id="todo-page">
@@ -23,19 +21,27 @@ function Posts(props) {
   );
 }
 
-function useTodos(todos) {
+function useTodos(todos, props) {
   if (!todos.length) {
-    Store.dispatch({type: 'getTodos'});
+    props.getTodos();
   }
 
   return {
     value: todos,
     remove(index) {
-      Store.dispatch({type: 'removeTodo', data: index});
+      props.removeTodo(index);
     },
   }
 }
 
-export default connect((state) => ({
-  todos: state.todos,
-}))(Posts);
+export default connect(
+  (state) => ({ todos: state.todos }),
+  (dispatch) => ({
+    getTodos() {
+      dispatch({ type: 'getTodos' });
+    },
+    removeTodo(index) {
+      dispatch({ type: 'removeTodo', data: index });
+    },
+  }),
+)(Posts);

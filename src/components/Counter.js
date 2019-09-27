@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Store from '../store/store';
 
 function Counter(props) {
-  const appCount = useAppCount(props.appCount);
-  const localCount = useLocalCount(appCount.value)
-
-  function saveToApp() {
-    Store.dispatch({ type: 'SET', data: localCount.value });
-  }
+  const appCount = useAppCount(props.appCount, props);
+  const localCount = useLocalCount(appCount.value, props);
 
   return (
     <div>
@@ -26,37 +21,33 @@ function Counter(props) {
         <button onClick={localCount.onDecrement}>-</button>{' '}
         <button onClick={localCount.incrementIfOdd}>Increment if odd</button>{' '}
         <button onClick={localCount.incrementAsync}>Increment in one second</button>
-        <button onClick={saveToApp}>Save to app count</button>
+        <button onClick={localCount.save}>Save to app count</button>
       </div>
     </div>
   );
 }
 
-function useAppCount(count) {
-  function increment() {
-    Store.dispatch({type: 'INCREMENT'});
-  }
-
+function useAppCount(count, props) {
   return {
     value: count,
     incrementIfOdd() {
       if (count % 2 !== 0) {
-        increment()
+        props.increment();
       }
     },
     incrementAsync() {
-      setTimeout(() => { increment(); }, 1000);
+      setTimeout(() => props.increment(), 1000);
     },
     onIncrement() {
-      increment()
+      props.increment()
     },
     onDecrement() {
-      Store.dispatch({type: 'DECREMENT'});
-    }
+      props.decrement();
+    },
   }
 }
 
-function useLocalCount(initialCount) {
+function useLocalCount(initialCount, props) {
   const [count, setCount] = useState(initialCount);
 
   function increment() {
@@ -78,9 +69,25 @@ function useLocalCount(initialCount) {
     },
     onDecrement() {
       setCount(count - 1);
+    },
+    save() {
+      props.save(count);
     }
   }
 }
 
-export default connect((state) => ({ appCount: state.count }))(Counter);
+export default connect(
+  (state) => ({ appCount: state.count }),
+  (dispatch) => ({
+    increment() {
+      dispatch({ type: 'INCREMENT' });
+    },
+    decrement() {
+      dispatch({ type: 'DECREMENT' });
+    },
+    save(data) {
+      dispatch({ type: 'SET', data });
+    }
+  }),
+)(Counter);
 

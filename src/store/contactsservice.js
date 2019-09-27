@@ -3,18 +3,19 @@ import Store from '../store/store';
 const JSON_SERVER_PORT = 4000;
 const CONTACTS_URL = `http://localhost:${JSON_SERVER_PORT}/contacts`;
 
-export default store => next => action => {
+export default store => next => async action => {
   next(action);
-	switch (action.type) {
-  	case 'getContacts':
-  		getContacts().then((response) => {
-        next({ type: 'setContacts', data: response });
-      }) 
 
-    	break;
-    case 'addContact':
-      getContacts().then((response) => {
-        fetch(CONTACTS_URL, {
+	try {
+    switch (action.type) {
+    	case 'getContacts': {
+    		const response = await getContacts();
+        next({ type: 'setContacts', data: response });
+      	break;
+      }
+      case 'addContact': {
+        const response = await getContacts();
+        await fetch(CONTACTS_URL, {
           method: 'post',
           headers: {
             'Accept': 'application/json',
@@ -27,26 +28,18 @@ export default store => next => action => {
             context: 'Edge2',
           })
         })
-        .then(() => {
-          Store.dispatch({type: 'getContacts'});
-        });
-      }) ;
 
-      break;
-    default: return false;
-	}
+        Store.dispatch({type: 'getContacts'});
+        break;
+      }
+      default: return false;
+  	}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-function getContacts() {
-  return new Promise((resolve) => {
-    fetch(CONTACTS_URL)
-      .then(res => res.json())
-      .then(response => {
-        //console.log('Success:', JSON.stringify(response));
-        resolve(response);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  });
+async function getContacts() {
+  const res = await fetch(CONTACTS_URL);
+  return await res.json();
 }

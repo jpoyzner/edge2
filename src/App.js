@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { Suspense, lazy, Fragment } from 'react';
 import { Provider } from 'react-redux';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route } from 'react-router-dom';
 import Store from './store/store';
-import Nav from './components/Nav';
 import Counter from './components/Counter';
-import LogDisplay from './components/LogDisplay';
-import Posts from './components/Posts';
-import Todos from './components/Todos';
-import Contacts from './components/Contacts';
 import './index.scss';
+
+//code split:
+const Nav = lazy(() => import('./components/Nav'));
+const LogDisplay = lazy(() => import('./components/LogDisplay'));
+const Posts = lazy(() => import('./components/Posts'));
+const Todos = lazy(() => import('./components/Todos'));
+const Contacts = lazy(() => import('./components/Contacts'));
 
 export default () => (
 	<Provider store={Store}>
 	  <Router>
-	  	<div>
-	    	<Route path="/" component={Nav} />
-				<Route path="/counter" render={() => <Counter text="Welcome!" />} />
-				<Route path="/logs" component={LogDisplay} />
-				<Route path="/posts" component={Posts} />
-				<Route path="/todos" component={Todos} />
-				<Route path="/contacts" component={Contacts} />
-			</div>
+	  	<Suspense fallback={<div>Loading...</div>}>
+		  	<Fragment>
+		    	<Route path="/" component={Nav} />
+					<Route path="/counter" render={() => <Counter text="Welcome!" />} />
+					<Route path="/logs" component={LogDisplay} />
+					<Route path="/posts" component={Posts} />
+					<Route path="/todos" component={Todos} />
+					<Route path="/contacts" component={Contacts} />
+				</Fragment>
+			</Suspense>
 	  </Router>
 	</Provider>
 );

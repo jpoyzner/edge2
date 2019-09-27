@@ -1,14 +1,14 @@
-export default store => next => action => {
+export default store => next => async action => {
   next(action);
 	switch (action.type) {
   	case 'GETLOGS':
-  		fetch('/logs/' + action.query)
-  			.then((res) => res.json())
-  			.then((response) => {
-  				console.log('Success:', JSON.stringify(response));
-  				next({type: 'GOTLOGS', data: response});
-  			})
-				.catch((error) => console.error('Error:', error));	      
+      try {
+        const res = await fetch('/logs/' + action.query);
+        const response = await res.json();
+        next({type: 'GOTLOGS', data: response});
+      } catch(err) {
+        console.error(err);
+      }
 
     	break;
     default: return false;

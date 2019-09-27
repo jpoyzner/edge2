@@ -1,26 +1,26 @@
-export default store => next => action => {
+export default store => next => async action => {
   next(action);
-  switch (action.type) {
-    case 'getTodos':
-      fetch('/todos/')
-        .then((res) => res.json())
-        .then((response) => {
-          //console.log('Success:', JSON.stringify(response));
-          next({type: 'gotTodos', data: response});
-        })
-        .catch((error) => console.error('Error:', error));        
-
-      break;
-    case 'removeTodo':
-    fetch('/removetodo/' + action.data)
-      .then((res) => res.json())
-      .then((response) => {
-        //console.log('Success:', JSON.stringify(response));
-        next({type: 'gotTodos', data: response});
-      })
-      .catch((error) => console.error('Error:', error));        
-
-      break;
-    default: return false;
+  
+  try {
+    switch (action.type) {
+      case 'getTodos': {
+        const res = await fetch('/todos/');
+        loadTodos(res, next);
+        break;
+      }
+      case 'removeTodo': {
+        const res = await fetch('/removetodo/' + action.data);
+        loadTodos(res, next);
+        break;
+      }
+      default: return false;
+    }
+  } catch (err) {
+    console.error(err);
   }
 };
+
+async function loadTodos(res, next) {
+  const response = await res.json();
+  next({type: 'gotTodos', data: response});
+}
