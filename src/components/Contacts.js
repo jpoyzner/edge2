@@ -83,7 +83,7 @@ function usePhoneNumber(initialValue) {
 }
 
 function useContacts(contacts, number, props) {
-  if (!contacts) {
+  if (!contacts.length) {
     props.getContacts();
   }
 

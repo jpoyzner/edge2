@@ -1,20 +1,13 @@
-import {createStore, applyMiddleware} from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
-import reducers from './reducers'
-import LogService from './logservice';
-import PostsService from './postsservice';
-import TodosService from './todosservice';
-import ContactsService from './contactsservice';
+import reducers from './reducers/index';
+import LogService from './middleware/logservice';
+import PostsService from './middleware/postsservice';
+import TodosService from './middleware/todosservice';
+import ContactsService from './middleware/contactsservice';
 
 export default createStore(
-	reducers, {
-		count: 0,
-		logs: [],
-		posts: [],
-		todos: [],
-		usersMap: {},
-		contacts: null,
-	},
+	reducers,
 	composeWithDevTools(
 		applyMiddleware(
 			LogService,

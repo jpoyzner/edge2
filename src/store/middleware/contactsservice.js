@@ -1,4 +1,4 @@
-import Store from '../store/store';
+import Store from '../store';
 
 const JSON_SERVER_PORT = 4000;
 const CONTACTS_URL = `http://localhost:${JSON_SERVER_PORT}/contacts`;

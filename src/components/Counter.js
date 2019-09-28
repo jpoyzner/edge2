@@ -77,7 +77,7 @@ function useLocalCount(initialCount, props) {
 }
 
 export default connect(
-  (state) => ({ appCount: state.count }),
+  (state) => ({ appCount: state.counter }),
   (dispatch) => ({
     increment() {
       dispatch({ type: 'INCREMENT' });
