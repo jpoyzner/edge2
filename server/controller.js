@@ -1,30 +1,17 @@
-var path = require('path');
-var logManager = require('./logmanager');
-var todosManager = require('./todosmanager');
+const express = require('express');
+const path = require('path');
+const LogManager = require('./logmanager');
+const TodosManager = require('./todosmanager');
 
-module.exports = (app) => {
-	app.get('/logs/*', function(req, res) {
-		var query = req.url.split('/')[2];
+module.exports = class Controller {
+	constructor(app) {
+		app.use(express.static(path.join(__dirname, '../build')));
 
-		logManager.readLogs(query).then((logLines) => {
-			res.end(JSON.stringify(logLines));
+		app.get('/', (req, res) => {
+		  res.sendFile(path.join(__dirname, '../build/index.html'));
 		});
-	});
 
-	app.get('/todos/*', (req, res) => {
-		todosManager.getTodos().then((todos) => {
-			res.end(JSON.stringify(todos));
-		});
-	});
-
-	app.get('/removetodo/*', (req, res) => {
-		const index = req.url.split('/')[2];
-		todosManager.removeTodo(index).then((todos) => {
-			res.end(JSON.stringify(todos));
-		});
-	});
-
-	return new Promise((resolve) => {
-		resolve();
-	});
+		new LogManager(app);
+		new TodosManager(app);
+	}
 }
