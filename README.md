@@ -12,9 +12,11 @@
 
 > json-server --watch server/data/contacts.json --port 4000
 
-> http://localhost:3000
+> Served from dev server (client hot reloads): http://localhost:3000
 
-### To Rebuild Sourcemaps
+> Served from real server (must rebuild client): http://localhost:8080
+
+### To Rebuild
 
 > npm run build
 
