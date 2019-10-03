@@ -1,5 +1,3 @@
-import Store from '../store';
-
 const JSON_SERVER_PORT = 4000;
 const CONTACTS_URL = `http://localhost:${JSON_SERVER_PORT}/contacts`;
 
@@ -15,21 +13,24 @@ export default store => next => async action => {
       }
       case 'addContact': {
         const response = await getContacts();
+
+        const contact = {
+          id: response.length,
+          name: 'Jeff Poyzner',
+          number: `+1${action.data.number}`,
+          context: 'Edge2',
+        };
+
         await fetch(CONTACTS_URL, {
           method: 'post',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            id: response.length,
-            name: 'Jeff Poyzner',
-            number: `+1${action.data.number}`,
-            context: 'Edge2',
-          })
+          body: JSON.stringify(contact),
         })
 
-        Store.dispatch({type: 'getContacts'});
+        next({ type: 'setContact', data: contact });
         break;
       }
       default: return false;

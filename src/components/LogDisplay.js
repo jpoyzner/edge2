@@ -24,7 +24,7 @@ function useDocumentTitle(title) {
 }
 
 export default connect(
-  (state) => ({ logs: state.logs || '' }),
+  (state) => ({ logs: state.get('logs') || '' }),
   (dispatch) => ({
     getLogs(query) {
       dispatch( {type: 'GETLOGS', query });

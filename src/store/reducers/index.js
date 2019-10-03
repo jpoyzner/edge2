@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import counter from './counter';
 import logs from './logs';
 import posts from './posts';

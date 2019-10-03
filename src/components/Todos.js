@@ -7,7 +7,7 @@ function Posts(props) {
 
   return (
     <div id="todo-page">
-      {todos.value.length ?
+      {todos.value.size ?
         todos.value.map((todo, index) => {
           return (
             <div className="todo-item" key={index} onClick={todos.remove.bind(this, index)}>
@@ -22,7 +22,7 @@ function Posts(props) {
 }
 
 function useTodos(todos, props) {
-  if (!todos.length) {
+  if (!todos.size) {
     props.getTodos();
   }
 
@@ -35,7 +35,7 @@ function useTodos(todos, props) {
 }
 
 export default connect(
-  (state) => ({ todos: state.todos }),
+  (state) => ({ todos: state.get('todos') }),
   (dispatch) => ({
     getTodos() {
       dispatch({ type: 'getTodos' });

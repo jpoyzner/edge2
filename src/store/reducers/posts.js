@@ -1,7 +1,9 @@
-export default (state = [], action) => {
+import { List, fromJS } from 'immutable';
+
+export default (state = List(), action) => {
   switch (action.type) {
 	 	case 'setPosts':
-	 		return action.data;
+	 		return fromJS(action.data);
 	  default: return state;
 	}
 };
