@@ -1,21 +1,21 @@
 // consider using LowDB for this instead: https://github.com/typicode/lowdb
 const cache = require('memory-cache');
+const Manager = require('./manager');
 
-module.exports = class TodosManager {
+module.exports = class TodosManager extends Manager {
 	constructor(app) {
+		super();
+
 		cache.put(
 			'todos',
 			['clean up', 'get food', 'take a nap'],
 		);
 
-		app.get('/todos/*', (req, res) => {
-			res.end(JSON.stringify(this.getTodos()));
-		});
+		app.get('/todos/*', (req, res) => this.respond(res, this.getTodos()));
 
 		app.get('/removetodo/*', (req, res) => {
-			const param = req.url.split('/')[2];
-			const todos = this.removeTodo(param);
-			res.end(JSON.stringify(todos));
+			const todos = this.removeTodo(this.getParam(req, 2));
+			this.respond(res, todos);
 		});
 	}
 

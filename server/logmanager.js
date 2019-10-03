@@ -1,9 +1,11 @@
-module.exports = class LogManager {
+const Manager = require('./manager');
+
+module.exports = class LogManager extends Manager {
 	constructor(app) {
+		super();
+
 		app.get('/logs/*', (req, res) => {
-			const param = req.url.split('/')[2];
-			const logLines = this.readLogs(param);
-			res.end(JSON.stringify(logLines));
+			this.respond(res, this.readLogs(this.getParam(req, 2)));
 		});
 	}
 
