@@ -5,23 +5,34 @@ export interface MapType<T, K, V> extends Map<K, V> {
   set<S extends keyof T>(key: S & K, value: T[S] & V): this;
 }
 
-export type Contact = MapType<{
+export type ContactPOJO = {
+  id: number,
   name: string;
-  number: number;
+  number: string;
   context: string;
-  error: boolean;
-}, string, any>;
+  error?: boolean;
+}
 
-export type Post = MapType<{
+export type Contact = MapType<ContactPOJO, string, any>;
+
+export type UserPOJO = {
   id: number;
-  user: string;
+  username: string;
+}
+
+export type PostPOJO = {
+  id: number;
+  userId: number;
+  user?: string;
   title: string;
   body: string;
-}, string, any>;
+}
+
+export type Post = MapType<PostPOJO, string, any>;
 
 export interface Action {
 	type: string;
-	data?: object;
+	data?: any;
 }
 
 

@@ -39,7 +39,7 @@ export default connect(
   }),
   (dispatch): DispatchProps => ({
     getLogs(query: string) {
-      dispatch({ type: 'GETLOGS', query });
+      dispatch({ type: 'GETLOGS', data: query });
     },
   }),
 )(LogDisplay);

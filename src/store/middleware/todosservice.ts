@@ -1,4 +1,6 @@
-export default store => next => async action => {
+import { Action } from '../../types';
+
+export default (store: any) => (next: any) => async (action: Action) => {
   next(action);
   
   try {
@@ -13,14 +15,14 @@ export default store => next => async action => {
         loadTodos(res, next);
         break;
       }
-      default: return false;
+      default:
     }
   } catch (err) {
     console.error(err);
   }
 };
 
-async function loadTodos(res, next) {
-  const response = await res.json();
+async function loadTodos(res: any, next: any) {
+  const response: string[] = await res.json();
   next({type: 'gotTodos', data: response});
 }
