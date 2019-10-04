@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { SFC } from 'react';
 import { connect } from 'react-redux';
+import { List } from 'immutable';
+import { Post } from '../types';
 import './Posts.scss';
 
-function Posts(props) {
-  const posts = useAppPosts(props.appPosts, props);
+interface StateProps {
+  appPosts: List<Post>;
+}
+
+interface DispatchProps {
+  getPosts(): void;
+}
+
+type Props = StateProps & DispatchProps;
+
+const Posts: SFC<Props> = (props) => {
+  const posts: List<Post> = useAppPosts(props.appPosts, props);
 
   return (
     <div id="posts-page">
       {posts.size ?
-        posts.map((post) => {
+        posts.map((post: Post) => {
           return (
             <div key={post.get('id')}>
               <div>USER: {post.get('user')}</div>
@@ -24,7 +36,7 @@ function Posts(props) {
   );
 }
 
-function useAppPosts(posts, props) {
+function useAppPosts(posts: List<Post> , props: DispatchProps): List<Post> {
   if (!posts.size) {
     (async () => {
       await delay(2000);
@@ -35,13 +47,15 @@ function useAppPosts(posts, props) {
   return posts;
 }
 
-function delay(time) {
+function delay(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), time));
 }
 
 export default connect(
-  (state) => ({ appPosts: state.get('posts') }),
-  (dispatch) => ({
+  (state: Map<string, any>): StateProps => ({
+    appPosts: state.get('posts'),
+  }),
+  (dispatch): DispatchProps => ({
     getPosts() {
       dispatch({ type: 'getPosts' });
     }

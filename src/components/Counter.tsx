@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { SFC, useState } from 'react';
 import { connect } from 'react-redux';
 
-function Counter(props) {
-  const appCount = useAppCount(props.appCount, props);
-  const localCount = useLocalCount(appCount.value, props);
+interface OwnProps {
+  text: string;
+}
+
+interface StateProps {
+  appCount: number;
+}
+
+interface DispatchProps {
+  increment(): void;
+  decrement(): void;
+  save(data: number): void;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+const Counter: SFC<Props> = (props) => {
+  const appCount: AppCountState = useAppCount(props.appCount, props);
+  const localCount: LocalCountState = useLocalCount(appCount.value, props);
 
   return (
     <div>
@@ -27,7 +43,15 @@ function Counter(props) {
   );
 }
 
-function useAppCount(count, props) {
+interface AppCountState {
+  value: number;
+  incrementIfOdd(): void;
+  incrementAsync(): void;
+  onIncrement(): void;
+  onDecrement(): void;
+}
+
+function useAppCount(count: number, props: DispatchProps): AppCountState {
   return {
     value: count,
     incrementIfOdd() {
@@ -47,7 +71,16 @@ function useAppCount(count, props) {
   }
 }
 
-function useLocalCount(initialCount, props) {
+interface LocalCountState {
+  value: number;
+  incrementIfOdd(): void;
+  incrementAsync(): void;
+  onIncrement(): void;
+  onDecrement(): void;
+  save(): void;
+}
+
+function useLocalCount(initialCount: number, props: DispatchProps): LocalCountState {
   const [count, setCount] = useState(initialCount);
 
   function increment() {
@@ -77,17 +110,18 @@ function useLocalCount(initialCount, props) {
 }
 
 export default connect(
-  (state) => ({ appCount: state.get('counter') }),
-  (dispatch) => ({
+  (state: Map<string, any>, ownProps: OwnProps): StateProps => ({
+    appCount: state.get('counter'),
+  }),
+  (dispatch, ownProps: OwnProps): DispatchProps => ({
     increment() {
       dispatch({ type: 'INCREMENT' });
     },
     decrement() {
       dispatch({ type: 'DECREMENT' });
     },
-    save(data) {
+    save(data: number) {
       dispatch({ type: 'SET', data });
     }
   }),
 )(Counter);
-

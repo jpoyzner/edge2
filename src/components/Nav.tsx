@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { SFC } from 'react';
+import { History } from 'history';
 import './Nav.scss';
 
-export default (props) => {
+interface Props {
+  history: History;
+}
+
+const Nav: SFC<Props> = ({ history }) => {
   function gotoCounter() {
-    props.history.push('/counter');
+    history.push('/counter');
   }
 
   function gotoLogs() {
-    props.history.push('/logs');
+    history.push('/logs');
   }
 
   function gotoPosts() {
-    props.history.push('/posts');
+    history.push('/posts');
   }
 
   function gotoTodos() {
-    props.history.push('/todos');
+    history.push('/todos');
   }
 
   function gotoContacts() {
-    props.history.push('/contacts');
+    history.push('/contacts');
   }
 
   return (
@@ -32,3 +37,5 @@ export default (props) => {
     </div>
   );
 }
+
+export default Nav;

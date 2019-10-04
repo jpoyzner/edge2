@@ -1,6 +1,5 @@
 import { List, fromJS } from 'immutable';
-import Action from '../../models/Action';
-import Contact from '../../models/Contact';
+import { Contact, Action } from '../../types';
 
 export default (state: List<Contact> = List(), action: Action): List<Contact> => {
   switch (action.type) {

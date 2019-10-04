@@ -1,20 +1,25 @@
-import React, { useState, MouseEvent, ChangeEvent } from 'react';
+import React, { SFC, useState, MouseEvent, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
-import { List, Map } from 'immutable';
-import Contact from '../models/Contact';
-import { useInput } from '../utils/hooks';
+import { List } from 'immutable';
+import { Contact } from '../types';
+import { useInput, InputState } from './hooks';
 import './Contacts.scss';
 
-interface Props {
+interface StateProps {
   contacts: List<Contact>;
+}
+
+interface DispatchProps {
   getContacts(): void;
   addContact(number: string): void;
 }
 
-function Contacts(props: Props) {
-  const filter = useInput('');
-  const number = usePhoneNumber('');
-  const contacts = useContacts(props.contacts, number, props);
+type Props = StateProps & DispatchProps;
+
+const Contacts: SFC<Props> = (props) => {
+  const filter: InputState = useInput('');
+  const number: PhoneNumberState = usePhoneNumber('');
+  const contacts: ContactsState = useContacts(props.contacts, number, props);
 
   return (
     <div className="contacts-page">
@@ -35,7 +40,7 @@ function Contacts(props: Props) {
               return false;
             }
 
-            const contactClasses = ['contact-item'];
+            const contactClasses: string[] = ['contact-item'];
             if (contact.get('error')) {
               contactClasses.push('error');
             }
@@ -55,13 +60,13 @@ function Contacts(props: Props) {
   );
 }
 
-interface Number {
+interface PhoneNumberState {
   phoneInput: any;
   value: string;
-  clear: () => void;
+  clear(): void;
 }
 
-function usePhoneNumber(initialValue: string) {
+function usePhoneNumber(initialValue: string): PhoneNumberState {
   const [value, setValue] = useState(initialValue);
   
   return {
@@ -70,10 +75,10 @@ function usePhoneNumber(initialValue: string) {
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
 
-        const numbersEntered = value.replace(/\D/g, '');
-        const numbersEnteredLength = numbersEntered.length;
+        const numbersEntered: string = value.replace(/\D/g, '');
+        const numbersEnteredLength: number = numbersEntered.length;
 
-        let phoneNumber = ''; // formatted
+        let phoneNumber: string = ''; // formatted
         if (numbersEnteredLength > 0) {
           phoneNumber += `(${numbersEntered.slice(0, 3)}`;
           
@@ -96,21 +101,26 @@ function usePhoneNumber(initialValue: string) {
   }
 }
 
-function useContacts(contacts: List<Contact>, number: Number, props: Props) {
+interface ContactsState {
+  value: List<Contact>;
+  addContact(e: MouseEvent<HTMLInputElement>): void;
+}
+
+function useContacts(contacts: List<Contact>, number: PhoneNumberState, props: DispatchProps): ContactsState {
   if (!contacts.size) {
     props.getContacts();
   }
 
   return {
     value:
-      contacts.reduce((contactsAcc, contact: Contact) => {
-        const digits = contact.get('number').replace(/[^A-Za-z0-9]/g, '')
-        let preparedContact = contact;
+      contacts.reduce((contactsAcc: List<Contact>, contact: Contact) => {
+        const digits: string = contact.get('number').replace(/[^A-Za-z0-9]/g, '')
+        let preparedContact: Contact = contact;
         if (digits.length !== 11 && digits.length !== 12) { //if it has +# or +## intl prefix before the 10 digits
           preparedContact = preparedContact.set('error', true); // error state contacts shown in red
         } else {
           // find length of international prefix by counting digits
-          const intlPrefixLength = digits.length === 11 ? 1 : 2;
+          const intlPrefixLength: number = digits.length === 11 ? 1 : 2;
           preparedContact = preparedContact.set('number', gete164Number(digits.slice(intlPrefixLength)));
         }
 
@@ -124,13 +134,15 @@ function useContacts(contacts: List<Contact>, number: Number, props: Props) {
 }
 
 // n param is 'numbers' (for shorter syntax)
-function gete164Number(n: string) {
+function gete164Number(n: string): string {
   return `(${n[0]}${n[1]}${n[2]}) ${n[3]}${n[4]}${n[5]}-${n[6]}${n[7]}${n[8]}${n[9]}`;
 }
 
 export default connect(
-  (state: Map<string, any>) => ({ contacts: state.get('contacts') }),
-  (dispatch) => ({
+  (state: Map<string, any>): StateProps => ({
+    contacts: state.get('contacts'),
+  }),
+  (dispatch): DispatchProps => ({
     getContacts() {
       dispatch({ type: 'getContacts' });
     },
