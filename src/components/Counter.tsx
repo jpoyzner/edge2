@@ -23,9 +23,9 @@ const Counter: SFC<Props> = (props) => {
 
   return (
     <div>
-      <div>{props.text + " "}</div>
+      <div className="jp-counter-text">{props.text}</div>
       <div>
-        <span>App Counter = {appCount.value}</span>{' '}
+        <span className="jp-counter-count">{`App Counter = ${appCount.value}`}</span>{' '}
         <button onClick={appCount.onIncrement}>+</button>{' '}
         <button onClick={appCount.onDecrement}>-</button>{' '}
         <button onClick={appCount.incrementIfOdd}>Increment if odd</button>{' '}
