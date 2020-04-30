@@ -11,7 +11,7 @@
     "@types/react-redux": "^7.1.4",
     "express": "^4.17.1",
     "immutable": "^4.0.0-rc.12",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "memory-cache": "^0.2.0",
     "node-sass": "^4.12.0",
     "react": "^16.9.0",
