@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { Post } from '../types';
@@ -14,7 +14,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const Posts: SFC<Props> = (props) => {
+const Posts: FunctionComponent<Props> = (props) => {
   const posts: List<Post> = useAppPosts(props.appPosts, props);
 
   return (

@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { History } from 'history';
 import './Nav.scss';
 
@@ -6,7 +6,7 @@ interface Props {
   history: History;
 }
 
-const Nav: SFC<Props> = ({ history }) => {
+const Nav: FunctionComponent<Props> = ({ history }) => {
   function gotoCounter() {
     history.push('/counter');
   }

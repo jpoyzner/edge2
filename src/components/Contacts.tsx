@@ -1,4 +1,4 @@
-import React, { SFC, useState, MouseEvent, ChangeEvent } from 'react';
+import React, { FunctionComponent, useState, MouseEvent, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { Contact } from '../types';
@@ -16,7 +16,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const Contacts: SFC<Props> = (props) => {
+const Contacts: FunctionComponent<Props> = (props) => {
   const filter: InputState = useInput('');
   const number: PhoneNumberState = usePhoneNumber('');
   const contacts: ContactsState = useContacts(props.contacts, number, props);

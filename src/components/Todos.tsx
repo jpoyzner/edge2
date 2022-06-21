@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import './Todos.scss';
@@ -14,7 +14,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const Todos: SFC<Props> = (props) => {
+const Todos: FunctionComponent<Props> = (props) => {
   const todos: TodosState = useTodos(props.todos, props);
 
   return (

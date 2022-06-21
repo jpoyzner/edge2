@@ -1,4 +1,4 @@
-import React, { SFC, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useInput, InputState } from './hooks';
 
@@ -12,7 +12,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const LogDisplay: SFC<Props> = (props) => {
+const LogDisplay: FunctionComponent<Props> = (props) => {
   const searchText: InputState = useInput('default text', (e) => props.getLogs(e.target.value));
   useDocumentTitle(searchText.value);
 

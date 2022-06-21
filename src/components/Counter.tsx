@@ -1,4 +1,4 @@
-import React, { SFC, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { connect } from 'react-redux';
 
 interface OwnProps {
@@ -17,7 +17,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps & OwnProps;
 
-const Counter: SFC<Props> = (props) => {
+const Counter: FunctionComponent<Props> = (props) => {
   const appCount: AppCountState = useAppCount(props.appCount, props);
   const localCount: LocalCountState = useLocalCount(appCount.value, props);
 
