@@ -1,7 +1,7 @@
 import { List, fromJS } from 'immutable';
-import { Contact, Action } from '../../types';
+import { Action } from '../../types';
 
-export default (state: List<Contact> = List(), action: Action): List<Contact> => {
+export default (state: any = List(), action: Action) => {
   switch (action.type) {
 	 	case 'setContacts':
 	 		return fromJS(action.data);
