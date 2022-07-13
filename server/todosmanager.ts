@@ -24,7 +24,7 @@ module.exports = class TodosManager extends Manager {
 	}
 
 	removeTodo(index) {
- 		const todos = cache.get('todos');
+ 		const todos: string[] = cache.get('todos');
  		todos.splice(index, 1);
  		cache.put('todos', todos);
  		return todos;

@@ -6,7 +6,7 @@
 
 > npm start
 
-> node server.js
+> npm run server
 
 > npm install -g json-server
 
