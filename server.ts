@@ -1,7 +1,7 @@
 const PORT = 8080;
 
 const express = require('express');
-const app = express();
+const app: express.Application = express();
 const Controller = require('./server/controller')
 
 app.listen(PORT, () => {
