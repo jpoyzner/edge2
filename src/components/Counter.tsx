@@ -15,11 +15,18 @@ interface DispatchProps {
   save(data: number): void;
 }
 
+// interface MapObject {
+//   [key: string]: number
+// }
+
 type Props = StateProps & DispatchProps & OwnProps;
 
 const Counter: FunctionComponent<Props> = (props) => {
   const appCount: AppCountState = useAppCount(props.appCount, props);
   const localCount: LocalCountState = useLocalCount(appCount.value, props);
+
+  // const sampleMapObject: MapObject = {};
+  // sampleMapObject["four"] = 4;  
 
   return (
     <div>
