@@ -1,42 +1,32 @@
-import React, { FunctionComponent, useState } from 'react';
-import { connect } from 'react-redux';
-
-interface OwnProps {
-  text: string;
-}
-
-interface StateProps {
-  appCount: number;
-}
-
-interface DispatchProps {
-  increment(): void;
-  decrement(): void;
-  save(data: number): void;
-}
+import React, { useState } from 'react';
+import { useAppSelector, useAppDispatch } from './hooks';
+import { set, increment, decrement } from '../store/reducers/Counter';
 
 // interface MapObject {
 //   [key: string]: number
 // }
 
-type Props = StateProps & DispatchProps & OwnProps;
+interface Props {
+  text: string;
+}
 
-const Counter: FunctionComponent<Props> = (props) => {
-  const appCount: AppCountState = useAppCount(props.appCount, props);
-  const localCount: LocalCountState = useLocalCount(appCount.value, props);
-
+export default function({ text }: Props) {
   // const sampleMapObject: MapObject = {};
-  // sampleMapObject["four"] = 4;  
+  // sampleMapObject["four"] = 4;
+
+  const appCount = useAppSelector((state) => state.counter.value);
+  const localCount: LocalCountState = useLocalCount(appCount);
+  const dispatch = useAppDispatch();
 
   return (
     <div>
-      <div className="jp-counter-text">{props.text}</div>
+      <div className="jp-counter-text">{text}</div>
       <div>
-        <span className="jp-counter-count">{`App Counter = ${appCount.value}`}</span>{' '}
-        <button onClick={appCount.onIncrement}>+</button>{' '}
-        <button onClick={appCount.onDecrement}>-</button>{' '}
-        <button onClick={appCount.incrementIfOdd}>Increment if odd</button>{' '}
-        <button onClick={appCount.incrementAsync}>Increment in one second</button>
+        <span className="jp-counter-count">{`App Counter = ${appCount}`}</span>{' '}
+        <button onClick={() => dispatch(increment())}>+</button>{' '}
+        <button onClick={() => dispatch(decrement())}>-</button>{' '}
+        <button onClick={() => appCount % 2 !== 0 && dispatch(increment())}>Increment if odd</button>{' '}
+        <button onClick={() => setTimeout(() => dispatch(increment()), 1000)}>Increment in one second</button>
       </div>
       <div>
         <span>Local Counter = {localCount.value}</span>{' '}
@@ -50,34 +40,6 @@ const Counter: FunctionComponent<Props> = (props) => {
   );
 }
 
-interface AppCountState {
-  value: number;
-  incrementIfOdd(): void;
-  incrementAsync(): void;
-  onIncrement(): void;
-  onDecrement(): void;
-}
-
-function useAppCount(count: number, props: DispatchProps): AppCountState {
-  return {
-    value: count,
-    incrementIfOdd() {
-      if (count % 2 !== 0) {
-        props.increment();
-      }
-    },
-    incrementAsync() {
-      setTimeout(() => props.increment(), 1000);
-    },
-    onIncrement() {
-      props.increment()
-    },
-    onDecrement() {
-      props.decrement();
-    },
-  }
-}
-
 interface LocalCountState {
   value: number;
   incrementIfOdd(): void;
@@ -87,7 +49,8 @@ interface LocalCountState {
   save(): void;
 }
 
-function useLocalCount(initialCount: number, props: DispatchProps): LocalCountState {
+function useLocalCount(initialCount: number): LocalCountState {
+  const dispatch = useAppDispatch();
   const [count, setCount] = useState(initialCount);
 
   function increment() {
@@ -102,7 +65,7 @@ function useLocalCount(initialCount: number, props: DispatchProps): LocalCountSt
       }
     },
     incrementAsync() {
-      setTimeout(() => { increment(); }, 1000);
+      setTimeout(() => increment(), 1000);
     },
     onIncrement() {
       increment()
@@ -111,24 +74,7 @@ function useLocalCount(initialCount: number, props: DispatchProps): LocalCountSt
       setCount(count - 1);
     },
     save() {
-      props.save(count);
+      dispatch(set(count));
     }
   }
 }
-
-export default connect(
-  (state: Map<string, any>, ownProps: OwnProps): StateProps => ({
-    appCount: state.get('counter'),
-  }),
-  (dispatch, ownProps: OwnProps): DispatchProps => ({
-    increment() {
-      dispatch({ type: 'INCREMENT' });
-    },
-    decrement() {
-      dispatch({ type: 'DECREMENT' });
-    },
-    save(data: number) {
-      dispatch({ type: 'SET', data });
-    }
-  }),
-)(Counter);

@@ -1,6 +1,7 @@
-import { Action } from '../../types';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { gotTodos } from '../reducers/Todos';
 
-export default (store: any) => (next: any) => async (action: Action) => {
+export default (store: any) => (next: any) => async (action: PayloadAction<string[]>) => {
   next(action);
   
   try {
@@ -11,7 +12,7 @@ export default (store: any) => (next: any) => async (action: Action) => {
         break;
       }
       case 'removeTodo': {
-        const res = await fetch('/removetodo/' + action.data);
+        const res = await fetch('/removetodo/' + action.payload);
         loadTodos(res, next);
         break;
       }
@@ -24,5 +25,5 @@ export default (store: any) => (next: any) => async (action: Action) => {
 
 async function loadTodos(res: any, next: any) {
   const response: string[] = await res.json();
-  next({type: 'gotTodos', data: response});
+  next(gotTodos(response));
 }

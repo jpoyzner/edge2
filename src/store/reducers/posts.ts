@@ -1,10 +1,23 @@
-import { List, fromJS } from 'immutable';
-import { Action, Post } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Post } from '../../types';
 
-export default (state: List<Post> = List(), action: Action) => {
-  switch (action.type) {
-	 	case 'setPosts':
-	 		return fromJS(action.data);
-	  default: return state;
-	}
-};
+interface State {
+  value: Post[];
+}
+
+const initialState: State = {
+  value: [],
+}
+
+export const slice = createSlice({
+  name: 'posts',
+  initialState,
+  reducers: {
+    setPosts: (state, action: PayloadAction<Post[]>) => {
+      state.value = action.payload;
+    },
+  },
+});
+
+export const { setPosts } = slice.actions;
+export default slice.reducer;

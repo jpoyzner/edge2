@@ -1,25 +1,27 @@
-import { ContactPOJO, Action } from '../../types';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { Contact } from '../../types';
+import { setContacts, setContact } from '../reducers/Contacts';
 
 const JSON_SERVER_PORT = 4000;
 const CONTACTS_URL = `http://localhost:${JSON_SERVER_PORT}/contacts`;
 
-export default (store: any) => (next: any) => async (action: Action) => {
+export default (store: any) => (next: any) => async (action: PayloadAction<Contact>) => {
   next(action);
 
 	try {
     switch (action.type) {
     	case 'getContacts': {
-    		const response: ContactPOJO[] = await getContacts();
-        next({ type: 'setContacts', data: response });
+    		const response: Contact[] = await getContacts();
+        next(setContacts(response));
       	break;
       }
       case 'addContact': {
-        const response: ContactPOJO[] = await getContacts();
+        const response: Contact[] = await getContacts();
 
-        const contact: ContactPOJO = {
+        const contact: Contact = {
           id: response.length,
           name: 'Jeff Poyzner',
-          number: `+1${action.data.number}`,
+          number: `+1${action.payload}`,
           context: 'Edge2',
         };
 
@@ -32,7 +34,7 @@ export default (store: any) => (next: any) => async (action: Action) => {
           body: JSON.stringify(contact),
         })
 
-        next({ type: 'setContact', data: contact });
+        next(setContact(contact));
         break;
       }
       default:
@@ -42,7 +44,7 @@ export default (store: any) => (next: any) => async (action: Action) => {
   }
 };
 
-async function getContacts(): Promise<ContactPOJO[]> {
+async function getContacts(): Promise<Contact[]> {
   const res = await fetch(CONTACTS_URL);
   return await res.json();
 }

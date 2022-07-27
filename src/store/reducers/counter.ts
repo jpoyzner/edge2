@@ -1,13 +1,30 @@
-import { Action } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../store'
 
-export default (state: number = 0, action: Action) => {
-  switch (action.type) {
-	 	case 'SET':
-	 		return action.data;
-	 	case 'INCREMENT':
-	 		return ++state;
-    case 'DECREMENT':
-    	return --state;
-	  default: return state;
-	}
-};
+interface State {
+  value: number
+}
+
+const initialState: State = {
+  value: 0,
+}
+
+export const slice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    set: (state, action: PayloadAction<number>) => {
+      state.value = action.payload;
+    },
+    increment: (state) => {
+    	state.value++;
+    },
+    decrement: (state) => {
+      state.value --;
+    },
+  },
+});
+
+export const { set, increment, decrement } = slice.actions;
+export const selectCount = (state: RootState) => state.counter.value;
+export default slice.reducer;

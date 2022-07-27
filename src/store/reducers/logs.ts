@@ -1,9 +1,23 @@
-import { Action } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export default (state: string = '', action: Action) => {
-  switch (action.type) {
-	 	case 'GOTLOGS':
-	 		return action.data;
-	  default: return state;
-	}
-};
+interface State {
+  value: string;
+}
+
+const initialState: State = {
+  value: '',
+}
+
+export const slice = createSlice({
+  name: 'logs',
+  initialState,
+  reducers: {
+    gotLogs: (state, action: PayloadAction<string>) => {
+      state.value = action.payload;
+    },
+  },
+});
+
+export const { gotLogs } = slice.actions;
+export default slice.reducer;
+

@@ -1,31 +1,21 @@
-import React, { FunctionComponent } from 'react';
-import { connect } from 'react-redux';
-import { List } from 'immutable';
+import React from 'react';
 import { Post } from '../types';
+import { useAppSelector, useAppDispatch } from './hooks';
 import './Posts.scss';
 
-interface StateProps {
-  appPosts: List<Post>;
-}
-
-interface DispatchProps {
-  getPosts(): void;
-}
-
-type Props = StateProps & DispatchProps;
-
-const Posts: FunctionComponent<Props> = (props) => {
-  const posts: List<Post> = useAppPosts(props.appPosts, props);
+export default function() {
+  const appPosts = useAppSelector((state) => state.posts.value);
+  const posts: Post[] = useAppPosts(appPosts);
 
   return (
     <div id="posts-page">
-      {posts.size ?
+      {posts.length ?
         posts.map((post: Post) => {
           return (
-            <div key={post.get('id')}>
-              <div>USER: {post.get('user')}</div>
-              <div>TITLE: {post.get('title')}</div>
-              <div>BODY: {post.get('body')}</div>
+            <div key={post.id}>
+              <div>USER: {post.user}</div>
+              <div>TITLE: {post.title}</div>
+              <div>BODY: {post.body}</div>
               <br />
             </div>
           );
@@ -36,11 +26,13 @@ const Posts: FunctionComponent<Props> = (props) => {
   );
 }
 
-function useAppPosts(posts: List<Post> , props: DispatchProps): List<Post> {
-  if (!posts.size) {
+function useAppPosts(posts: Post[]): Post[] {
+  const dispatch = useAppDispatch();
+
+  if (!posts.length) {
     (async () => {
       await delay(2000);
-      props.getPosts();
+      dispatch({ type: 'getPosts' });
     })();
   }
 
@@ -50,14 +42,3 @@ function useAppPosts(posts: List<Post> , props: DispatchProps): List<Post> {
 function delay(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), time));
 }
-
-export default connect(
-  (state: Map<string, any>): StateProps => ({
-    appPosts: state.get('posts'),
-  }),
-  (dispatch): DispatchProps => ({
-    getPosts() {
-      dispatch({ type: 'getPosts' });
-    }
-  }),
-)(Posts);
