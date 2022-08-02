@@ -1,13 +1,18 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store/store';
 
 export interface InputState {
   value: string;
   onChange(e: ChangeEvent<HTMLInputElement>): void;
+  onKeyDown(e: KeyboardEvent<HTMLInputElement>): void;
 }
 
-export function useInput(initialValue: string, onChangeCallback?: (e: ChangeEvent<HTMLInputElement>) => void ): InputState {
+export function useInput(
+  initialValue: string,
+  onChangeCallback?: (e: ChangeEvent<HTMLInputElement>) => void,
+  onEnterCallback?: (value: string) => void): InputState {
+
   const [value, setValue] = useState(initialValue);
   
   return {
@@ -19,6 +24,12 @@ export function useInput(initialValue: string, onChangeCallback?: (e: ChangeEven
       	onChangeCallback(e);
       }
     },
+    onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+      if (onEnterCallback && e.key === 'Enter') {
+        onEnterCallback(value);
+        setValue('');
+      }
+    }
   }
 }
 

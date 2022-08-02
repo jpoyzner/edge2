@@ -11,6 +11,7 @@ const LogDisplay = lazy(() => import('./components/LogDisplay'));
 const Posts = lazy(() => import('./components/Posts'));
 const Todos = lazy(() => import('./components/Todos'));
 const Contacts = lazy(() => import('./components/Contacts'));
+const Hashmaps = lazy(() => import('./components/Hashmaps'));
 
 export default () => (
   <Provider store={Store}>
@@ -23,6 +24,7 @@ export default () => (
 				  <Route path="/posts" component={Posts} />
 				  <Route path="/todos" component={Todos} />
 				  <Route path="/contacts" component={Contacts} />
+				  <Route path="/hashmaps" component={Hashmaps} />
 				</>
 	  	</Suspense>
 		</Router>
