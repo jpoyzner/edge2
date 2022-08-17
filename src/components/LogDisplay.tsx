@@ -1,11 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppSelector, useAppDispatch, useInput, InputState } from './hooks';
+import { getLogs } from '../store/middleware/LogActions';
 
 export default function() {
   const logs = useAppSelector((state) => state.logs.value);
   const dispatch = useAppDispatch();
-  const searchText: InputState = useInput('default text', (e) => dispatch({ type: 'GETLOGS', payload: e.target.value }));
-  useDocumentTitle(searchText.value);
+  
+  const searchText: InputState =
+    useInput('default text', (e) => dispatch(getLogs(e.target.value)));
+  
+  React.useEffect(() => {
+    document.title = searchText.value;
+  });
 
   return (
     <div id="jp-log-display">
@@ -16,10 +22,4 @@ export default function() {
       </div>
     </div>
   );
-}
-
-function useDocumentTitle(title: string) {
-  useEffect(() => {
-    document.title = title;
-  });
 }

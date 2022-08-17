@@ -1,5 +1,6 @@
-import React, { useState, MouseEvent, ChangeEvent } from 'react';
+import React, { MouseEvent, ChangeEvent } from 'react';
 import { Contact } from '../types';
+import { getContacts, addContact } from '../store/middleware/ContactsActions';
 import { useInput, InputState, useAppSelector, useAppDispatch } from './hooks';
 import './Contacts.scss';
 
@@ -55,7 +56,7 @@ interface PhoneNumberState {
 }
 
 function usePhoneNumber(initialValue: string): PhoneNumberState {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = React.useState(initialValue);
   
   return {
     phoneInput: {
@@ -98,7 +99,7 @@ function useContacts(contacts: Contact[], number: PhoneNumberState): ContactsSta
   const dispatch = useAppDispatch();
 
   if (!contacts.length) {
-    dispatch({ type: 'getContacts' });
+    dispatch(getContacts());
   }
 
   return {
@@ -118,7 +119,7 @@ function useContacts(contacts: Contact[], number: PhoneNumberState): ContactsSta
         return contactsAcc;
       }, []),
     addContact(e: MouseEvent<HTMLInputElement>) {
-      dispatch({ type: 'addContact', payload: number.value });
+      dispatch(addContact(number.value));
       number.clear();
     },
   }

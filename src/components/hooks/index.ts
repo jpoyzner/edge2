@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import React, { ChangeEvent, KeyboardEvent } from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store/store';
 
@@ -13,7 +13,7 @@ export function useInput(
   onChangeCallback?: (e: ChangeEvent<HTMLInputElement>) => void,
   onEnterCallback?: (value: string) => void): InputState {
 
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = React.useState(initialValue);
   
   return {
     value,

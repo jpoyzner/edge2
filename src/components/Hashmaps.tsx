@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import HashmapBucket from '../objects/HashmapBucket';
 import { useInput, InputState} from './hooks';
 import './Contacts.scss';
@@ -35,14 +35,14 @@ interface BucketsState {
 }
 
 function useBuckets(initialCapacity: number, loadFactor: number = .75): BucketsState {
-  const [buckets, setBuckets] = useState<HashmapBucket[]>([]);
+  const [buckets, setBuckets] = React.useState<HashmapBucket[]>([]);
   if (!buckets.length) {
     setBuckets(createBuckets(initialCapacity));
   }
 
-  const [numValues, setNumValues] = useState<number>(0);
+  const [numValues, setNumValues] = React.useState<number>(0);
 
-  const [capacity, setCapacity] = useState<number>(initialCapacity);
+  const [capacity, setCapacity] = React.useState<number>(initialCapacity);
   if (numValues / capacity > loadFactor) {
     const newCapacity: number = capacity * 2;
     const newBuckets: HashmapBucket[] = createBuckets(newCapacity);

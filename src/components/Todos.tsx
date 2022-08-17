@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAppSelector, useAppDispatch } from './hooks';
+import { getTodos, removeTodo } from '../store/middleware/TodosActions';
 import './Todos.scss';
 
 export default function() {
@@ -31,13 +32,13 @@ function useTodos(todos: string[]): TodosState {
   const dispatch = useAppDispatch();
 
   if (!todos.length) {
-    dispatch({ type: 'getTodos' });
+    dispatch(getTodos());
   }
 
   return {
     value: todos,
     remove(index) {
-      dispatch({ type: 'removeTodo', payload: index });
+      dispatch(removeTodo(index));
     },
   }
 }

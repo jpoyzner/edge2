@@ -1,6 +1,7 @@
 import React from 'react';
 import { Post } from '../types';
 import { useAppSelector, useAppDispatch } from './hooks';
+import { getPosts } from '../store/middleware/PostsActions';
 import './Posts.scss';
 
 export default function() {
@@ -32,7 +33,7 @@ function useAppPosts(posts: Post[]): Post[] {
   if (!posts.length) {
     (async () => {
       await delay(2000);
-      dispatch({ type: 'getPosts' });
+      dispatch(getPosts());
     })();
   }
 

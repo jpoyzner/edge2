@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAppSelector, useAppDispatch } from './hooks';
 import { set, increment, decrement } from '../store/reducers/Counter';
 
@@ -51,7 +51,7 @@ interface LocalCountState {
 
 function useLocalCount(initialCount: number): LocalCountState {
   const dispatch = useAppDispatch();
-  const [count, setCount] = useState(initialCount);
+  const [count, setCount] = React.useState(initialCount);
 
   function increment() {
     setCount(count + 1);
