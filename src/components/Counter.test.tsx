@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { act } from "react-dom/test-utils";
+import { act } from 'react-dom/test-utils';
 import Store from '../store/store';
 import Counter from './Counter';
 import { increment } from '../store/reducers/Counter';
@@ -37,10 +37,8 @@ test('Counter counts', () => {
   
   expect(screen.getByText('App Counter = 3')).toBeInTheDocument();
 
-  const button = document.querySelector(".jp-app-increment");
-
   act(() => {
-    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    screen.getAllByText('+')[0].click();
   });
 
   expect(screen.getByText('App Counter = 4')).toBeInTheDocument();
