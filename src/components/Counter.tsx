@@ -14,16 +14,16 @@ export default function({ text }: Props) {
   // const sampleMapObject: MapObject = {};
   // sampleMapObject["four"] = 4;
 
-  const appCount = useAppSelector((state) => state.counter.value);
+  const appCount: number = useAppSelector((state) => state.counter.value);
   const localCount: LocalCountState = useLocalCount(appCount);
   const dispatch = useAppDispatch();
 
   return (
-    <div>
+    <div className="jp-counter">
       <div className="jp-counter-text">{text}</div>
       <div>
         <span className="jp-counter-count">{`App Counter = ${appCount}`}</span>{' '}
-        <button onClick={() => dispatch(increment())}>+</button>{' '}
+        <button className="jp-app-increment" onClick={() => dispatch(increment())}>+</button>{' '}
         <button onClick={() => dispatch(decrement())}>-</button>{' '}
         <button onClick={() => appCount % 2 !== 0 && dispatch(increment())}>Increment if odd</button>{' '}
         <button onClick={() => setTimeout(() => dispatch(increment()), 1000)}>Increment in one second</button>

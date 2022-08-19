@@ -13,7 +13,6 @@
     "@types/react-redux": "^7.1.4",
     "eslint": "^6.1.0",
     "express": "^4.17.1",
-    "immutable": "^4.0.0-rc.12",
     "jquery": "^3.4.1",
     "memory-cache": "^0.2.0",
     "react": "^18.2.0",
@@ -22,7 +21,6 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.1.1",
     "redux": "^4.0.4",
-    "redux-immutable": "^4.0.0",
     "sass": "^1.52.3",
     "ts-node-dev": "^2.0.0",
     "typescript": "^3.6.3"
@@ -30,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
     "server": "ts-node-dev --respawn --transpile-only ./server.ts"
   },
@@ -51,10 +49,29 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.3.0",
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "react-error-overlay": "^6.0.9"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "coverageReporters": [
+      "text"
+    ]
   }
 }

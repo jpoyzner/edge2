@@ -1,3 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Counter counts 1`] = `ReactWrapper {}`;
+exports[`Counter counts 1`] = `
+<div
+  class="jp-counter"
+>
+  <div
+    class="jp-counter-text"
+  >
+    blahblah
+  </div>
+  <div>
+    <span
+      class="jp-counter-count"
+    >
+      App Counter = 0
+    </span>
+     
+    <button
+      class="jp-app-increment"
+    >
+      +
+    </button>
+     
+    <button>
+      -
+    </button>
+     
+    <button>
+      Increment if odd
+    </button>
+     
+    <button>
+      Increment in one second
+    </button>
+  </div>
+  <div>
+    <span>
+      Local Counter = 
+      0
+    </span>
+     
+    <button>
+      +
+    </button>
+     
+    <button>
+      -
+    </button>
+     
+    <button>
+      Increment if odd
+    </button>
+     
+    <button>
+      Increment in one second
+    </button>
+    <button>
+      Save to app count
+    </button>
+  </div>
+</div>
+`;
