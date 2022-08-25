@@ -12,6 +12,7 @@ const Posts = lazy(() => import('./components/Posts'));
 const Todos = lazy(() => import('./components/Todos'));
 const Contacts = lazy(() => import('./components/Contacts'));
 const Hashmaps = lazy(() => import('./components/Hashmaps'));
+const Grid = lazy(() => import('./components/Grid'));
 
 export default () => (
   <Provider store={Store}>
@@ -25,6 +26,7 @@ export default () => (
 				  <Route path="/todos" component={Todos} />
 				  <Route path="/contacts" component={Contacts} />
 				  <Route path="/hashmaps" component={Hashmaps} />
+				  <Route path="/grid" component={Grid} />
 				</>
 	  	</Suspense>
 		</Router>

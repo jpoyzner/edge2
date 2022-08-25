@@ -1,0 +1,120 @@
+.grid-container {
+  background: #2196F3;
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-rows: 25%;
+  grid-template-columns: 25%;
+  width: 100%;
+  height: 200px;
+     
+  .box1 {
+    background: red;
+    grid-row: 1;
+    grid-row-end: 5;
+    grid-column-start: 1;
+  }
+
+  .box2 {
+    background: orange;
+    grid-row-start: 1;
+    grid-row-end: 5;
+    grid-column-start: 2;
+  }
+
+  .box3 {
+    background: yellow;
+    grid-row-start: 1;
+    grid-row-end: 5;
+    grid-column-start: 3;
+  }
+
+  .box4 {
+    background: green;
+    grid-row-start: 1;
+    grid-row-end: 5;
+    grid-column-start: 4;
+  }
+}
+
+@media all and (max-width: 900px) {
+  .grid-two {
+    .box1 {
+        background: red;
+        grid-row-start: 1; 
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
+
+      .box2 {
+        background: orange;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        grid-column-start: 3;
+        grid-column-end: 5;
+      }
+
+      .box3 {
+        background: yellow;
+        grid-row-start: 3;
+        grid-row-end: 5;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        
+      }
+
+      .box4 {
+        background: green;
+        grid-row-start: 3;
+        grid-row-end: 5;
+        grid-column-start: 3;
+        grid-column-end: 5;
+      }
+  }
+}
+
+@media all and (max-width: 800px) {
+  .grid-two {
+    .box1 {
+        background: red;
+        grid-row-start: 1; 
+        grid-column-start: 1;
+        grid-column-end: 5;
+      }
+
+      .box2 {
+        background: orange;
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-column-end: 5;
+      }
+
+      .box3 {
+        background: yellow;
+        grid-row-start: 3;
+        grid-column-start: 1;
+        grid-column-end: 5;
+        
+      }
+
+      .box4 {
+        background: green;
+        grid-row-start: 4;
+        grid-column-start: 1;
+        grid-column-end: 5;
+      }
+  }
+}

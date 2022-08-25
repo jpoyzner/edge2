@@ -15,6 +15,7 @@ export default function({ history }: Props) {
       <div className="tab" onClick={() => history.push('/todos')}>RENDER TODOS</div>
       <div className="tab" onClick={() => history.push('/contacts')}>RENDER CONTACTS</div>
       <div className="tab" onClick={() => history.push('/hashmaps')}>RENDER HASHMAPS</div>
+      <div className="tab" onClick={() => history.push('/grid')}>RENDER GRID</div>
     </div>
   );
 }
