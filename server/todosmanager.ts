@@ -11,7 +11,7 @@ module.exports = class TodosManager extends Manager {
 		['clean up', 'get food', 'take a nap'],
 	);
 
-	app.get('/todos/*', (req, res) => this.respond(res, this.getTodos()));
+	app.get('/todos', (req, res) => this.respond(res, this.getTodos()));
 
 	app.get('/removetodo/*', (req, res) => {
 		const todos = this.removeTodo(this.getParam(req, 2));

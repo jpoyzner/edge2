@@ -5,13 +5,19 @@ const TodosManager = require('./todosmanager');
 
 module.exports = class Controller {
   constructor(app) {
-	app.use(express.static(path.join(__dirname, '../build')));
 
-	app.get('/', (req, res) => {
-	  res.sendFile(path.join(__dirname, '../build/index.html'));
-	});
+  	app.use(function (req, res, next) {
+			res.setHeader('Access-Control-Allow-Origin', '*');
+    	next();
+		});
 
-	new LogManager(app);
-	new TodosManager(app);
+		app.use(express.static(path.join(__dirname, '../build')));
+
+		app.get('/', (req, res) => {
+		  res.sendFile(path.join(__dirname, '../build/index.html'));
+		});
+
+		new LogManager(app);
+		new TodosManager(app);
   }
 }

@@ -4,13 +4,17 @@
   margin-bottom: 20px;
 
   .tab {
-    background: lightyellow;
+    background: lightgreen;
     border: 1px solid;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
     flex: 1;
+    flex-direction: column; 
     height: 60px;
+    justify-content: center;
     padding: 10px;
+    text-align: center;
   }
 }
 

@@ -1,44 +1,47 @@
 import React from 'react';
-import { useAppSelector, useAppDispatch } from './hooks';
-import { getTodos, removeTodo } from '../store/middleware/TodosActions';
+import { useGetAllTodosQuery, useRemoveTodoMutation } from '../store/services/Todos';
 import './Todos.scss';
 
 export default function() {
-  const appTodos: string[] = useAppSelector((state) => state.todos.value);
-  const todos: TodosState = useTodos(appTodos);
+  const todos: TodosState = useTodos();
+
+  React.useEffect(() => {
+    if (todos.error) {
+      console.log(todos.error);
+    }
+  }, [todos.error]);
 
   return (
     <div id="todo-page">
-      {todos.value.length ?
+      {!todos.error && todos.value && todos.value.length ?
         todos.value.map((todo: string, index: number) => {
           return (
-            <div className="todo-item" key={index} onClick={todos.remove.bind(null, index)}>
+            <div className="todo-item" key={index} onClick={() => todos.remove(index)}>
               <span>{todo}</span>
             </div>
           );
         })
-        : "LOADING..."
+        : (todos.error && `${todos.error.status} ${JSON.stringify(todos.error.data)}`) || "NO TODOS FOUND"
       }
     </div>
   );
 }
 
 interface TodosState {
-  value: string[];
+  value: string[] | undefined;
   remove(index: number): void;
+  error: any;
 }
 
-function useTodos(todos: string[]): TodosState {
-  const dispatch = useAppDispatch();
-
-  if (!todos.length) {
-    dispatch(getTodos());
-  }
+function useTodos(): TodosState {
+  const { data: initialTodos, error } = useGetAllTodosQuery();
+  const [removeTodo, updatedTodos] = useRemoveTodoMutation();
 
   return {
-    value: todos,
+    value: updatedTodos.data || initialTodos,
     remove(index) {
-      dispatch(removeTodo(index));
+      removeTodo(index);
     },
+    error,
   }
 }
