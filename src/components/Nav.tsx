@@ -1,5 +1,6 @@
 import React from 'react';
 import { History } from 'history';
+import { usePrefetchPosts } from '../store/services/Posts';
 import './Nav.scss';
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export default function({ history }: Props) {
+  usePrefetchPosts('getPosts', undefined, {});
+
   return (
     <div id="jp-nav">
       <div className="tab" onClick={() => history.push('/counter')}>RENDER COUNTER</div>

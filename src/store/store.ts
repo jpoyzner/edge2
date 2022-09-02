@@ -3,19 +3,22 @@ import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { todosApi } from './services/Todos';
 import { logsApi } from './services/Logs';
+import { postsApi } from './services/Posts';
 import counter from './reducers/Counter';
-import posts from './reducers/Posts';
 import contacts from './reducers/Contacts';
 
 const store = configureStore({
   reducer: {
     counter,
-    posts,
     contacts,
     [todosApi.reducerPath]: todosApi.reducer,
     [logsApi.reducerPath]: logsApi.reducer,
+    [postsApi.reducerPath]: postsApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(todosApi.middleware, logsApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
+    todosApi.middleware,
+    logsApi.middleware,
+    todosApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

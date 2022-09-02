@@ -1,3 +1,5 @@
+//I AM USING ASYNC THUNK ACTIONS HERE ONLY AS AN EXAMPLE. SEE services folder for newer createAPI versions:
+
 import { AppThunk } from '../store';
 import { Contact } from '../../types';
 import { setContacts, setContact } from '../reducers/Contacts';
