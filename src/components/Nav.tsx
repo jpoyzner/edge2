@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { History } from 'history';
 import { usePrefetchPosts } from '../store/services/Posts';
 import './Nav.scss';
@@ -8,6 +8,10 @@ interface Props {
 }
 
 export default function({ history }: Props) {
+  useEffect(() => {
+    console.log(window.location.pathname);
+  });
+
   usePrefetchPosts('getPosts', undefined, {});
 
   return (

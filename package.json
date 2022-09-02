@@ -51,7 +51,9 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
-    "react-error-overlay": "^6.0.9"
+    "@types/redux-logger": "^3.0.9",
+    "react-error-overlay": "^6.0.9",
+    "redux-logger": "^3.0.6"
   },
   "jest": {
     "collectCoverageFrom": [
