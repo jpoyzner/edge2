@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Provider } from 'react-redux';
-import {BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import Store from './store/store';
 import Counter from './components/Counter';
 import './styles/index.scss';
@@ -16,19 +16,20 @@ const Grid = lazy(() => import('./components/Grid'));
 
 export default () => (
   <Provider store={Store}>
-		<Router>
+		<BrowserRouter>
 	  	<Suspense fallback={<div>Loading...</div>}>
-				<>
-				  <Route path="/" component={Nav} />
-				  <Route path="/counter" render={() => <Counter text="Welcome!" />} />
-				  <Route path="/logs" component={LogDisplay} />
-				  <Route path="/posts" component={Posts} />
-				  <Route path="/todos" component={Todos} />
-				  <Route path="/contacts" component={Contacts} />
-				  <Route path="/hashmaps" component={Hashmaps} />
-				  <Route path="/grid" component={Grid} />
-				</>
+				<Routes>
+				  <Route path="/" element={<><Nav /><Outlet /></>}>
+            <Route path="counter" element={<Counter text="Welcome!" />} />
+            <Route path="logs" element={<LogDisplay />} />
+            <Route path="posts" element={<Posts />} />
+            <Route path="todos" element={<Todos />} />
+            <Route path="contacts" element={<Contacts />} />
+            <Route path="hashmaps" element={<Hashmaps />} />
+            <Route path="grid" element={<Grid />} />
+          </Route>
+				</Routes>
 	  	</Suspense>
-		</Router>
+		</BrowserRouter>
   </Provider>
 );
